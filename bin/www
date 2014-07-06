@@ -13,14 +13,6 @@ io.on('connection', function(socket){
     console.log('a user connected');
 });
 
-router.post('/pushtemp', function(req, res) {
-    var tempAndHumid = req.body;
-    console.log(tempAndHumid.temp);
-    console.log(tempAndHumid.humid);
-    io.emit('tesselreceive', tempAndHumid);
-    res.send('Received temp');
-});
-
 router.get('/gettemp/:temp/:humid', function(req, res) {
     //var tempAndHumid = req.body;
     console.log(req.params.temp);

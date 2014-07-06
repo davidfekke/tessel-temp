@@ -12,7 +12,7 @@ climate.on('ready', function () {
   setImmediate(function loop () {
     climate.readTemperature('f', function (err, temp) {
       climate.readHumidity(function (err, humid) {
-        http.get("http://192.168.1.78:3002/io/gettemp/" + temp.toFixed(4) + "/" + humid.toFixed(4), function (res) {
+        http.get("http://tesseltemp.azurewebsites.net/io/gettemp/" + temp.toFixed(4) + "/" + humid.toFixed(4), function (res) {
 		    console.log('# statusCode', res.statusCode)
 
 		    var bufs = [];
