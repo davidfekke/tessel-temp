@@ -1,3 +1,4 @@
+// Taken from Tessel.io wifi and climate examples
 var http = require('http');
 var tessel = require('tessel');
 var climatelib = require('climate-si7005');
@@ -11,7 +12,7 @@ climate.on('ready', function () {
   setImmediate(function loop () {
     climate.readTemperature('f', function (err, temp) {
       climate.readHumidity(function (err, humid) {
-        http.get("http://192.168.1.78:3002/io/gettemp/" + temp + "/" + humid, function (res) {
+        http.get("http://192.168.1.78:3002/io/gettemp/" + temp.toFixed(4) + "/" + humid.toFixed(4), function (res) {
 		    console.log('# statusCode', res.statusCode)
 
 		    var bufs = [];
@@ -28,7 +29,7 @@ climate.on('ready', function () {
 		    setImmediate(loop);
 		  });
 		console.log('Degrees:', temp.toFixed(4) + 'F', 'Humidity:', humid.toFixed(4) + '%RH');
-        setTimeout(loop, 300);
+        setTimeout(loop, 1000);
       });
     });
   });

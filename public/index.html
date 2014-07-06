@@ -42,7 +42,7 @@
 <div class="jumbotron">
     <h1>Tessel Temperature</h1>
     <p>This is an example of getting Tessel settings pushed to your web page.
-    This example use Socket.io to push real-time updates from a tessel to a table on your page.
+    This example uses Socket.io to push real-time updates from a Tessel to a table on your page.
     </p>
 </div>
 
@@ -71,8 +71,24 @@
 <script>
     var socket = io();
     socket.on('tesselreceive', function(tempAndHumid) {
-        $("#tempCell").text(tempAndHumid.temp);
-        $("#humidCell").text(tempAndHumid.humid);
+		var currentTemp = $("#tempCell").text();
+		var currentHumid = $("#humidCell").text();
+        $("#tempCell").text(tempAndHumid.temp + ' F');
+        $("#humidCell").text(tempAndHumid.humid + '% RH');
+		if (currentTemp > tempAndHumid.temp) {
+			$("#tempCell").css("color","blue");
+		} else if (currentTemp === tempAndHumid.temp) {
+			$("#tempCell").css("color","black");
+		} else {
+			$("#tempCell").css("color","red");
+		}
+		if (currentHumid > tempAndHumid.humid) {
+			$("#humidCell").css("color","blue");
+		} else if (currentHumid === tempAndHumid.humid) {
+			$("#humidCell").css("color","black");
+		} else {
+			$("#humidCell").css("color","red");
+		}
     });
 </script>
 </body>
