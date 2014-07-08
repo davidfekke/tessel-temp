@@ -46,7 +46,7 @@
     </p>
 </div>
 
-
+<div class="col-md-12">
     <table class="table table-hover">
         <tbody>
             <tr>
@@ -59,6 +59,15 @@
             </tr>
         </tbody>
     </table>
+</div>
+
+<div class="col-md-6">
+    <div id="tempguagediv" style="height: 540px;">...</div>
+</div>
+
+<div class="col-md-6">
+    <div id="humidguagediv" style="height: 540px;">...</div>
+</div>
 
 </div> <!-- /container -->
 
@@ -68,6 +77,8 @@
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="js/bootstrap.min.js"></script>
 <script src="/socket.io/socket.io.js"></script>
+<script src="js/amcharts.js" type="text/javascript"></script>
+<script src="js/gauge.js" type="text/javascript"></script>
 <script>
     var socket = io();
     socket.on('tesselreceive', function(tempAndHumid) {
@@ -89,6 +100,89 @@
 		} else {
 			$("#humidCell").css("color","red");
 		}
+
+        tempGuage.arrows[0].setValue(tempAndHumid.temp);
+        tempGuage.axes[0].setBottomText(tempAndHumid.temp + " F");
+
+        humidGuage.arrows[0].setValue(tempAndHumid.humid);
+        humidGuage.axes[0].setBottomText(tempAndHumid.humid + "% RH");
+    });
+
+    var tempGuage = AmCharts.makeChart("tempguagediv", {
+        type: "gauge",
+        titles: [{
+            "text": "Temperature",
+            "size": 15
+        }],
+
+        axes: [{
+            startValue: 0,
+            axisThickness: 1,
+            endValue: 100,
+            valueInterval: 10,
+            bottomTextYOffset: -20,
+            bottomText: "0 F",
+
+            bands: [{
+                startValue: 0,
+                endValue: 60,
+                color: "blue"
+            },
+
+                {
+                    startValue: 60,
+                    endValue: 85,
+                    color: "#ffac29"
+                },
+
+                {
+                    startValue: 85,
+                    endValue: 100,
+                    color: "#ea3838"
+
+                }
+            ]
+        }],
+
+        arrows: [{}]
+    });
+
+    var humidGuage = AmCharts.makeChart("humidguagediv", {
+        type: "gauge",
+        titles: [{
+            "text": "Humidity",
+            "size": 15
+        }],
+
+        axes: [{
+            startValue: 0,
+            axisThickness: 1,
+            endValue: 100,
+            valueInterval: 10,
+            bottomTextYOffset: -20,
+            bottomText: "0% RH",
+
+            bands: [{
+                startValue: 0,
+                endValue: 20,
+                color: "#00CC00"
+            },
+
+                {
+                    startValue: 20,
+                    endValue: 60,
+                    color: "#ffac29"
+                },
+
+                {
+                    startValue: 60,
+                    endValue: 100,
+                    color: "#ea3838"
+                }
+            ]
+        }],
+
+        arrows: [{}]
     });
 </script>
 </body>
